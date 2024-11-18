@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <nav class="bg-green-700 text-white shadow-lg py-2 mb-20">
+        <div class="max-w-6xl mx-auto flex justify-between items-center px-6">
+            <!-- User Name and Profile Image -->
+            <div class="text-3xl font-semibold tracking-wide text-white flex items-center gap-3">
+                <img src="{{ user_file }}" alt="User Profile" class="w-10 h-10 rounded-full border-emerald-900 object-cover object-top shadow-lg" />
+                <div>{{ user_name }}</div>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <ul class="hidden lg:flex space-x-10">
+                <li class="hover:bg-emerald-800 p-3 rounded-md transition duration-300">
+                    <a href="/">Home</a>
+                </li>
+                <li class="hover:bg-emerald-800 p-3 rounded-md transition duration-300">
+                    <a href="/">Age: {{ user_age }}</a>
+                </li>
+                <li class="hover:bg-emerald-800 p-3 rounded-md transition duration-300">
+                    <a href="https://latestport.netlify.app">Portfolio</a>
+                </li>
+            </ul>
+
+            <!-- Mobile Menu Button -->
+            <div class="lg:hidden flex items-center">
+                <form action="{{ url_for('toggle_menu') }}" method="POST">
+                    <button type="submit" class="text-white p-3">
+                        <i class="fas {{ 'fa-times' if is_menu_open else 'fa-bars' }}"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="lg:hidden {{ 'block' if is_menu_open else 'hidden' }} bg-emerald-600 p-6">
+            <ul class="space-y-6">
+                <li>
+                    <a href="/" class="block p-4 text-white hover:bg-emerald-700 rounded-md transition duration-300">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="/" class="block p-4 text-white hover:bg-emerald-700 rounded-md transition duration-300">
+                        Age: {{ user_age }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Form to Set User Data (for demo purposes) -->
+    <div class="max-w-xl mx-auto p-6 bg-white rounded-md shadow-md">
+        <h1 class="text-green-700 font-semibold text-2xl mb-5 text-center">User Informations</h1>
+        <form action="{{ url_for('set_user_data') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+            <div>
+                <label for="userName" class="block text-lg font-semibold text-emerald-700">User Name</label>
+                <input type="text" name="userName" id="userName" placeholder="Enter your name" value="{{ user_name }}" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"/>
+            </div>
+            <div>
+                <label for="userAge" class="block text-lg font-semibold text-emerald-700">User Age</label>
+                <input type="text" name="userAge" id="userAge" placeholder="Enter your age" value="{{ user_age }}" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"/>
+            </div>
+            <div>
+                <label for="uploadedFile" class="block text-lg font-semibold text-emerald-700">Upload Profile Image</label>
+                <input type="file" name="uploadedFile" id="uploadedFile" class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"/>
+            </div>
+            <div>
+                <button type="submit" class="w-full bg-green-700 text-white py-2 px-6 rounded-md hover:bg-emerald-800 transition duration-300">Set User Data</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
